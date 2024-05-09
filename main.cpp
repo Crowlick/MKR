@@ -29,7 +29,7 @@ int main()
 	obj.Add_Form("Circle", circle, true);
 	obj.Add_Form("Arc", arc, true);
 	obj.Add_Form("Rectangle", base, false);
-	double step = 1.;
+	double step = 10.;
 	std::ofstream file("data.dat");
 /*	for (double i = 0; i <= obj.Width(); i += step)
 	{
@@ -52,18 +52,18 @@ int main()
 	System sys(obj, step);
 	//Mesh mesh(obj, step);
 	sys.DefineBounds();
-	for (auto line : sys.nodes())
+	/*for (auto line : sys.nodes())
 		for (auto node : line)
-			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
-	/*for (auto start : mesh.lineX())
+			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';*/
+	for (auto start : sys.lineY())
 	{
 		Node* cur = start;
 		while (cur)
 		{
 			file << cur->X() << ' ' << cur->Y() << ' ' << cur->T() << '\n';
-			cur = cur->r();
+			cur = cur->u();
 		}
-	}*/
+	}
 	file.close();
 	system("python3 vis.py");
 	return 0;

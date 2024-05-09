@@ -38,3 +38,5 @@ void System::DefineBounds()
 }
 
 const std::vector<std::vector<Node*>>& System::nodes() const {return _mesh.nodes();}
+const std::vector<Node*>& System::lineX() const {return _mesh.lineX();}
+const std::vector<Node*>& System::lineY() const {return _mesh.lineY();}
