@@ -116,8 +116,9 @@ void Mesh::Delnode(int i, int j)
 	double bndY2 = _obj.Filly(node->X(), node->Y()).second;
 	if (node->l())
 	{
-		if (node->l()->X() != bndX2)
+		if (node->l()->X() != bndX2 && node->l()->X() != bndX1)
 		{
+			//std::cout << "Created at " << node->Y() << ' ' << bndX2 << ' ' << bndX1 << '\n';
 			Node* left = new Node(bndX2, node->Y());
 			Node* right = new Node(bndX1, node->Y());
 			node->l()->r() = left;
@@ -172,7 +173,7 @@ void Mesh::Delnode(int i, int j)
 	}
 	if (node->d())
 	{
-		if (node->d()->Y() != bndY2)
+		if (node->d()->Y() != bndY2 && node->d()->Y() != bndY1)
 		{
 			Node* down = new Node(node->X(), bndY2);
 			Node* up = new Node(node->X(), bndY1);
@@ -218,10 +219,10 @@ void Mesh::Delnode(int i, int j)
 	delete node;
 }
 
-const std::vector<std::vector<Node*>>& Mesh::nodes() const {return _mesh;}
+std::vector<std::vector<Node*>>& Mesh::Nodes() {return _mesh;}
 
-const std::vector<Node*>& Mesh::lineX() const {return _hlines;}
-const std::vector<Node*>& Mesh::lineY() const {return _vlines;}
+std::vector<Node*>& Mesh::LineX()  {return _hlines;}
+std::vector<Node*>& Mesh::LineY()  {return _vlines;}
 
 Mesh::~Mesh()
 {

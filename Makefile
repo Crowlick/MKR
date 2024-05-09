@@ -1,8 +1,8 @@
-HEADERS=headers/Form.h headers/Primitives.h headers/Object.h headers/Node.h headers/Mesh.h headers/System.h
+HEADERS=headers/Form.h headers/Primitives.h headers/Object.h headers/Node.h headers/Mesh.h headers/System.h headers/System.h
 
 
-a.out:	Form.o Primitives.o Object.o Node.o Mesh.o System.o main.o
-	g++  Form.o Primitives.o Object.o Node.o Mesh.o System.o main.o
+a.out:	Form.o Primitives.o Object.o Node.o Mesh.o System.o Solver.o main.o
+	g++  Form.o Primitives.o Object.o Node.o Mesh.o System.o Solver.o main.o
 
 Form.o: Form.cpp $(HEADERS)
 	g++ -c Form.cpp
@@ -21,6 +21,9 @@ Mesh.o: Mesh.cpp $(HEADERS)
 
 System.o: System.cpp $(HEADERS)
 	g++ -c System.cpp
+	
+Solver.o: Solver.cpp $(HEADERS)
+	g++ -c Solver.cpp	
 	
 main.o: main.cpp $(HEADERS)
 	g++ -c main.cpp

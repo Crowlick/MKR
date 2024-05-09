@@ -20,9 +20,9 @@ class Mesh
 public:
 	Mesh(Object&, double);
 	void ShowLinks();
-	const std::vector<std::vector<Node*>>& nodes() const;
-	const std::vector<Node*>& lineX() const;
-	const std::vector<Node*>& lineY() const;
+	std::vector<std::vector<Node*>>& Nodes();
+	std::vector<Node*>& LineX();
+	std::vector<Node*>& LineY();
 	~Mesh();
 };
 

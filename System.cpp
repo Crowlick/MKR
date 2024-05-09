@@ -3,7 +3,7 @@
 
 void System::DefineBounds()
 {
-	for (auto start : _mesh.lineX())
+	for (auto start : _mesh.LineX())
 	{
 		Node* cur = start;
 		while (cur)
@@ -21,7 +21,7 @@ void System::DefineBounds()
 			cur = cur->r();
 		}
 	}
-	for (auto start : _mesh.lineY())
+	for (auto start : _mesh.LineY())
 	{
 		Node* cur = start;
 		while (cur)
@@ -37,6 +37,10 @@ void System::DefineBounds()
 	}
 }
 
-const std::vector<std::vector<Node*>>& System::nodes() const {return _mesh.nodes();}
-const std::vector<Node*>& System::lineX() const {return _mesh.lineX();}
-const std::vector<Node*>& System::lineY() const {return _mesh.lineY();}
+std::vector<std::vector<Node*>>& System::Nodes() {return _mesh.Nodes();}
+std::vector<Node*>& System::LineX() {return _mesh.LineX();}
+std::vector<Node*>& System::LineY()  {return _mesh.LineY();}
+
+double System::step() const {return _step;}
+double System::a1() const {return _a1;}
+double System::a2() const {return _a2;}
