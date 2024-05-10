@@ -24,12 +24,12 @@ int main()
 	double YS2 = 255.;
 	
 	int l = 1; //Bound conditions
-	int t = 3;
+	int t = 1;
 	int r = 1;
-	int b = 3;
+	int b = 1;
 	int r1 = 1;
-	int r2 = 3;
-	int s = 3;
+	int r2 = 1;
+	int s = 1;
 	
 	double step = 5.; // Mesh step
 	
@@ -39,7 +39,7 @@ int main()
 	std::map<std::string, double> arc{{"a", w - R1}, {"b", h - R1}, {"h_x", 1 / R1}, {"h_y", 1 / R1}};
 	
 	Object obj;
-	//obj.Add_Form("Rectangle", sqr, true, s);
+	obj.Add_Form("Rectangle", sqr, true, s);
 	obj.Add_Form("Circle", circle, true, r2);
 	obj.Add_Form("Arc", arc, true, r1);
 	obj.Add_Form("Rectangle", base, false, 1);
