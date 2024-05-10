@@ -1,7 +1,3 @@
-//
-// Created by vka19 on 05.05.2024.
-//
-
 #ifndef MIMAPR_FORM_H
 #define MIMAPR_FORM_H
 

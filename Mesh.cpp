@@ -118,17 +118,29 @@ void Mesh::Delnode(int i, int j)
 	{
 		if (node->l()->X() != bndX2 && node->l()->X() != bndX1)
 		{
-			//std::cout << "Created at " << node->Y() << ' ' << bndX2 << ' ' << bndX1 << '\n';
-			Node* left = new Node(bndX2, node->Y());
-			Node* right = new Node(bndX1, node->Y());
-			node->l()->r() = left;
-			if (node->r())
-				node->r()->l() = right;
-			left->LinkX(node->l(), right);
-			right->LinkX(left, node->r());
-			node->l() = right;
-			_mesh[i].push_back(left);
-			_mesh[i].push_back(right);
+			if (bndX1 != bndX2)
+			{
+				Node* left = new Node(bndX2, node->Y());
+				Node* right = new Node(bndX1, node->Y());
+				node->l()->r() = left;
+				if (node->r())
+					node->r()->l() = right;
+				left->LinkX(node->l(), right);
+				right->LinkX(left, node->r());
+				node->l() = right;
+				_mesh[i].push_back(left);
+				_mesh[i].push_back(right);
+			}
+			else
+			{
+				Node* left = new Node(bndX2, node->Y());
+				node->l()->r() = left;
+				if (node->r())
+					node->r()->l() = left;
+				left->LinkX(node->l(), node->r());
+				node->l() = left;
+				_mesh[i].push_back(left);
+			}
 			/*Node* bndNode = new Node(bndX2, node->Y());
 			bndNode->LinkX(node->l(), node->r());
 			node->l()->r() = bndNode;
@@ -175,16 +187,29 @@ void Mesh::Delnode(int i, int j)
 	{
 		if (node->d()->Y() != bndY2 && node->d()->Y() != bndY1)
 		{
-			Node* down = new Node(node->X(), bndY2);
-			Node* up = new Node(node->X(), bndY1);
-			node->d()->u() = down;
-			if (node->u())
-				node->u()->d() = up;
-			down->LinkY(node->d(), up);
-			up->LinkY(down, node->u());
-			node->d() = up;
-			_mesh[i].push_back(down);
-			_mesh[i].push_back(up);
+			if (bndY2 != bndY1)
+			{
+				Node* down = new Node(node->X(), bndY2);
+				Node* up = new Node(node->X(), bndY1);
+				node->d()->u() = down;
+				if (node->u())
+					node->u()->d() = up;
+				down->LinkY(node->d(), up);
+				up->LinkY(down, node->u());
+				node->d() = up;
+				_mesh[i].push_back(down);
+				_mesh[i].push_back(up);
+			}
+			else
+			{
+				Node* down = new Node(node->X(), bndY2);
+				node->d()->u() = down;
+				if (node->u())
+					node->u()->d() = down;
+				down->LinkY(node->d(), node->u());
+				node->d() = down;
+				_mesh[i].push_back(down);
+			}
 			/*Node* bndNode = new Node(node->X(), bndY2);
 			bndNode->LinkY(node->d(), node->u());
 			node->d()->u() = bndNode;

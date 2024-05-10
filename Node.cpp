@@ -30,3 +30,7 @@ void Node::LinkY(Node* d, Node* u)
 }
 
 void Node::SetT(double t) {_t = t;}
+
+bool Node::IsBound() {return _flag;}
+
+void Node::SetB() {_flag = true;}

@@ -3,7 +3,18 @@
 
 void System::DefineBounds()
 {
-	for (auto start : _mesh.LineX())
+	for (auto line : _mesh.Nodes())
+	{
+		for (auto node : line)
+		{
+			if (!node->l() || !node->r() || !node->u() || !node->d())
+			{
+				node->SetT(100);
+				node->SetB();
+			}
+		}
+	}
+	/*for (auto start : _mesh.LineX())
 	{
 		Node* cur = start;
 		while (cur)
@@ -12,12 +23,18 @@ void System::DefineBounds()
 				cur->Dist(cur->r()) > _step || cur->Dist(cur->l()) > _step ||
 				cur->Dist(cur->u()) > _step || cur->Dist(cur->d()) > _step)
 				cur->SetT(100);*/
-			if (!cur->l() || !cur->r())
-				cur->SetT(100);
+			/*if (!cur->l() || !cur->r())
+			{
+				cur->SetT(100); cur->SetB();
+			}
 			if (cur->l() && cur->Dist(cur->l()) > _step)
-				cur->SetT(100);
+			{
+				cur->SetT(100); cur->SetB();
+			}
 			if (cur->r() && cur->Dist(cur->r()) > _step)
-				cur->SetT(100);
+			{
+				cur->SetT(100); cur->SetB();
+			}
 			cur = cur->r();
 		}
 	}
@@ -27,14 +44,21 @@ void System::DefineBounds()
 		while (cur)
 		{
 			if (!cur->u() || !cur->d())
+			{
 				cur->SetT(100);
+				cur->SetB();
+			}
 			if (cur->u() && cur->Dist(cur->u()) > _step)
-				cur->SetT(100);
+			{
+				cur->SetT(100); cur->SetB();
+			}
 			if (cur->d() && cur->Dist(cur->d()) > _step)
-				cur->SetT(100);
+			{
+				cur->SetT(100); cur->SetB();
+			}
 			cur = cur->u();
 		}
-	}
+	}*/
 }
 
 std::vector<std::vector<Node*>>& System::Nodes() {return _mesh.Nodes();}

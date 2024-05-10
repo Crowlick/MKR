@@ -55,6 +55,21 @@ void Solver::SolveExplicit(System& sys, double tstop) const
 
 void Solver::SolveImplicit(System& sys, double tstop) const
 {
+	for (double t = 0.; t < tstop; t += _dt)
+	{
+		for (auto line : sys.Nodes())
+			for (auto node : line)
+			{
+				//std::cout << "A\n";
+				if (!node->IsBound())
+				{
+					double tx = (node->r()->T() - 2 * node->T() + node->l()->T()) / pow(sys.step(), 2);
+					double ty = (node->u()->T() - 2 * node->T() + node->d()->T()) / pow(sys.step(), 2);
+					double t = _dt * (tx + ty) + node->T();
+					node->SetT(t);
+				}
+			}
+	}
 
 }
 

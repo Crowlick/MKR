@@ -28,7 +28,7 @@ int main()
 	obj.Add_Form("Arc", arc, true);
 	obj.Add_Form("Rectangle", base, false);
 	
-	double step = 5.;
+	double step = 25.;
 	std::ofstream file("data.dat");
 	
 	System sys(obj, step);
