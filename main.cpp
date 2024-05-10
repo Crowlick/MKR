@@ -15,9 +15,9 @@ int main()
 {
 	double w = 500.;
 	double h = 400.;
-	double S = 100.;
+	double S = 150.;
 	double R1 = 150.;
-	double R2 = 51.;
+	double R2 = 101.;
 	double XS1 = 155.;
 	double YS1 = 155.;
 	double XS2 = 355.;
@@ -29,8 +29,8 @@ int main()
 	std::map<std::string, double> arc{{"a", w - R1}, {"b", h - R1}, {"h_x", 1 / R1}, {"h_y", 1 / R1}};
 	
 	Object obj;
-	obj.Add_Form("Rectangle", sqr, true, 1);
-	obj.Add_Form("Circle", circle, true, 1);
+	obj.Add_Form("Rectangle", sqr, true, 2);
+	obj.Add_Form("Circle", circle, true, 3);
 	obj.Add_Form("Arc", arc, true, 1);
 	obj.Add_Form("Rectangle", base, false, 1);
 	
@@ -43,8 +43,11 @@ int main()
 	
 	Solver s("explicit.dat", "implicit.dat", 1.);
 	s.SolveImplicit(sys, 1000.);
-
+	for (auto line : sys.Nodes())
+		for (auto node : line)
+			file << node->X() << ' ' << node->Y() << ' ' << node->T() << '\n';
 	file.close();
+	system("python3 vis.py");
 	visualize(script, "implicit.dat");
 	system("gnuplot script.plt");
 	return 0;

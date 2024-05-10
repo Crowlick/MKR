@@ -23,6 +23,18 @@ double Node::T() const
 		if (!_below)
 			if (_above)
 				return _above->T();
+		if (_right && _left)
+		{
+			if (_right->IsBound())
+				return _left->T();
+			return _right->T();
+		}
+		if (_above && _below)
+		{
+			if (_above->IsBound())
+				return _below->T();
+			return _above->T();
+		}
 	}
 	
 	if (_btype == 3)
@@ -39,6 +51,18 @@ double Node::T() const
 		if (!_below)
 			if (_above)
 				return _above->T() / (1 + Dist(_above));
+		if (_right && _left)
+		{
+			if (_right->IsBound())
+				return _left->T() / (1 + Dist(_left));
+			return _right->T() / (1 + Dist(_right));
+		}
+		if (_above && _below)
+		{
+			if (_above->IsBound())
+				return _below->T() / (1 + Dist(_below));
+			return _above->T() / (1 + Dist(_above));
+		}
 	}
 	
 	return _t;

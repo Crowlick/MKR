@@ -1,4 +1,4 @@
-HEADERS=headers/Form.h headers/Primitives.h headers/Object.h headers/Node.h headers/Mesh.h headers/System.h headers/System.h
+HEADERS=headers/Form.h headers/Primitives.h headers/Object.h headers/Node.h headers/Mesh.h headers/System.h headers/System.h headers/Solver.h
 
 
 a.out:	Form.o Primitives.o Object.o Node.o Mesh.o System.o Solver.o main.o
