@@ -11,6 +11,7 @@ protected:
     static size_t counter_;
     size_t id_;
     bool excluded_;
+    int _boundtype;
 
 public:
     Form();
@@ -24,6 +25,7 @@ public:
     virtual std::pair<double, double> missX(double); 
     virtual std::pair<double, double> missY(double); 
     virtual std::pair<double, double> size();
+    virtual int GetB();
     [[nodiscard]] size_t Get_ID() const;
 
     [[nodiscard]] bool Excluded() const;

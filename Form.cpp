@@ -46,6 +46,8 @@ bool Form::Excluded() const {
     return excluded_;
 }
 
+int Form::GetB() {return _boundtype;}
+
 bool Form::operator==(size_t id) const {
     return id_ == id;
 }

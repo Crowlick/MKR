@@ -3,6 +3,7 @@
 
 Mesh::Mesh(Object& obj, double step): _obj(obj), _step(step)
 {
+	
 	for (double y = 0.0; y <= _obj.Height(); y += _step)
 	{
 		_mesh.push_back(std::vector<Node*>());
@@ -114,14 +115,15 @@ void Mesh::Delnode(int i, int j)
 	double bndX2 = _obj.Fillx(node->X(), node->Y()).second;
 	double bndY1 = _obj.Filly(node->X(), node->Y()).first;
 	double bndY2 = _obj.Filly(node->X(), node->Y()).second;
+	int btype = _obj.Who(node->X(), node->Y())->GetB();
 	if (node->l())
 	{
 		if (node->l()->X() != bndX2 && node->l()->X() != bndX1)
 		{
 			if (bndX1 != bndX2)
 			{
-				Node* left = new Node(bndX2, node->Y());
-				Node* right = new Node(bndX1, node->Y());
+				Node* left = new Node(bndX2, node->Y(), btype);
+				Node* right = new Node(bndX1, node->Y(), btype);
 				node->l()->r() = left;
 				if (node->r())
 					node->r()->l() = right;
@@ -133,7 +135,7 @@ void Mesh::Delnode(int i, int j)
 			}
 			else
 			{
-				Node* left = new Node(bndX2, node->Y());
+				Node* left = new Node(bndX2, node->Y(), btype);
 				node->l()->r() = left;
 				if (node->r())
 					node->r()->l() = left;
@@ -189,8 +191,8 @@ void Mesh::Delnode(int i, int j)
 		{
 			if (bndY2 != bndY1)
 			{
-				Node* down = new Node(node->X(), bndY2);
-				Node* up = new Node(node->X(), bndY1);
+				Node* down = new Node(node->X(), bndY2, btype);
+				Node* up = new Node(node->X(), bndY1, btype);
 				node->d()->u() = down;
 				if (node->u())
 					node->u()->d() = up;
@@ -202,7 +204,7 @@ void Mesh::Delnode(int i, int j)
 			}
 			else
 			{
-				Node* down = new Node(node->X(), bndY2);
+				Node* down = new Node(node->X(), bndY2, btype);
 				node->d()->u() = down;
 				if (node->u())
 					node->u()->d() = down;

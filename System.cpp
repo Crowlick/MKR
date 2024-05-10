@@ -1,62 +1,41 @@
 #include "headers/System.h"
 
 
-void System::DefineBounds()
+void System::DefineBounds(int l, int t, int r, int b)
 {
-	for (auto line : _mesh.Nodes())
+	Node* cur = _mesh.LineX().front();
+	while (cur)
+	{
+		cur->SetB(b);
+		cur = cur->r();
+	}
+	cur = _mesh.LineX().back();
+	while (cur)
+	{
+		cur->SetB(t);
+		cur = cur->r();
+	}
+	cur = _mesh.LineY().front();
+	while (cur)
+	{
+		cur->SetB(l);
+		cur = cur->u();
+	}
+	cur = _mesh.LineY().back();
+	while (cur->u())
+	{
+		cur->SetB(r);
+		cur = cur->u();
+	}
+	/*for (auto line : _mesh.Nodes())
 	{
 		for (auto node : line)
 		{
 			if (!node->l() || !node->r() || !node->u() || !node->d())
 			{
-				node->SetT(100);
-				node->SetB();
+				//node->SetT(100);
+				node->SetB(1);
 			}
-		}
-	}
-	/*for (auto start : _mesh.LineX())
-	{
-		Node* cur = start;
-		while (cur)
-		{
-			/*if (!cur->l() || !cur->r() || 
-				cur->Dist(cur->r()) > _step || cur->Dist(cur->l()) > _step ||
-				cur->Dist(cur->u()) > _step || cur->Dist(cur->d()) > _step)
-				cur->SetT(100);*/
-			/*if (!cur->l() || !cur->r())
-			{
-				cur->SetT(100); cur->SetB();
-			}
-			if (cur->l() && cur->Dist(cur->l()) > _step)
-			{
-				cur->SetT(100); cur->SetB();
-			}
-			if (cur->r() && cur->Dist(cur->r()) > _step)
-			{
-				cur->SetT(100); cur->SetB();
-			}
-			cur = cur->r();
-		}
-	}
-	for (auto start : _mesh.LineY())
-	{
-		Node* cur = start;
-		while (cur)
-		{
-			if (!cur->u() || !cur->d())
-			{
-				cur->SetT(100);
-				cur->SetB();
-			}
-			if (cur->u() && cur->Dist(cur->u()) > _step)
-			{
-				cur->SetT(100); cur->SetB();
-			}
-			if (cur->d() && cur->Dist(cur->d()) > _step)
-			{
-				cur->SetT(100); cur->SetB();
-			}
-			cur = cur->u();
 		}
 	}*/
 }

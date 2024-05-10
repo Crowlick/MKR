@@ -60,7 +60,6 @@ void Solver::SolveImplicit(System& sys, double tstop) const
 		for (auto line : sys.Nodes())
 			for (auto node : line)
 			{
-				//std::cout << "A\n";
 				if (!node->IsBound())
 				{
 					double tx = (node->r()->T() - 2 * node->T() + node->l()->T()) / pow(sys.step(), 2);
@@ -70,7 +69,6 @@ void Solver::SolveImplicit(System& sys, double tstop) const
 				}
 			}
 	}
-
 }
 
 void Solver::SolveLine(System& sys, std::vector<Node*>& n) const

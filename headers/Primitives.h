@@ -10,7 +10,7 @@ private:
     double h_x_;
     double h_y_;
 public:
-    Rectangle(double, double, double, double, bool);
+    Rectangle(double, double, double, double, bool, int);
 
     double Function(double, double) override;
 
@@ -28,7 +28,7 @@ private:
     double h_x_;
     double h_y_;
 public:
-    Circle(double, double, double, double, bool);
+    Circle(double, double, double, double, bool, int);
 
     double Function(double, double) override;
 
@@ -47,7 +47,7 @@ private:
     double h_x_;
     double h_y_;
 public:
-    Arc(double, double, double, double, bool);
+    Arc(double, double, double, double, bool, int);
 
     double Function(double, double) override;
 

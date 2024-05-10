@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-//#include "headers/Object.h"
 #include "headers/Solver.h"
 
 
@@ -11,7 +10,7 @@ int main()
 	double h = 400.;
 	double S = 100.;
 	double R1 = 150.;
-	double R2 = 50.;
+	double R2 = 51.;
 	double XS1 = 155.;
 	double YS1 = 155.;
 	double XS2 = 355.;
@@ -23,16 +22,16 @@ int main()
 	std::map<std::string, double> arc{{"a", w - R1}, {"b", h - R1}, {"h_x", 1 / R1}, {"h_y", 1 / R1}};
 	
 	Object obj;
-	obj.Add_Form("Rectangle", sqr, true);
-	obj.Add_Form("Circle", circle, true);
-	obj.Add_Form("Arc", arc, true);
-	obj.Add_Form("Rectangle", base, false);
+	obj.Add_Form("Rectangle", sqr, true, 2);
+	obj.Add_Form("Circle", circle, true, 2);
+	obj.Add_Form("Arc", arc, true, 1);
+	obj.Add_Form("Rectangle", base, false, 1);
 	
-	double step = 25.;
+	double step = 5.;
 	std::ofstream file("data.dat");
-	
+//	std::cout << obj.Inhere(0,0) << '\n';
 	System sys(obj, step);
-	sys.DefineBounds();
+	sys.DefineBounds(1, 2, 1, 2);
 	/*for (auto line : sys.Nodes())
 		for (auto node : line)
 			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
@@ -48,10 +47,16 @@ int main()
 //	file.close();
 //	system("python3 vis.py");*/
 	Solver s(1.);
-	s.SolveExplicit(sys, 1000.);
+	s.SolveImplicit(sys, 10000.);
 	for (auto line : sys.Nodes())
 		for (auto node : line)
 			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
+	/*Node* cur = sys.LineX().back();
+	while (cur)
+	{
+			file << cur->X() << ' ' << cur->Y() << ' ' << cur->T() << '\n';
+			cur = cur->r();
+	}*/
 	/*for (auto start : sys.LineX())
 	{
 		Node* cur = start;

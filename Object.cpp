@@ -33,17 +33,17 @@ void Object::Updsize()
 	}
 }
 
-bool Object::Add_Form(const std::string &name, std::map<std::string, double> &args, bool excluded) {
+bool Object::Add_Form(const std::string &name, std::map<std::string, double> &args, bool excluded, int btype) {
     if (name == "Rectangle") {
-        forms_.push_back(new Rectangle(args["a"], args["b"], args["h_x"], args["h_y"], excluded));
+        forms_.push_back(new Rectangle(args["a"], args["b"], args["h_x"], args["h_y"], excluded, btype));
         Updsize();
         return true;
     } else if (name == "Circle") {
-        forms_.push_back(new Circle(args["a"], args["b"], args["h_x"], args["h_y"], excluded));
+        forms_.push_back(new Circle(args["a"], args["b"], args["h_x"], args["h_y"], excluded, btype));
         Updsize();
         return true;
     } else if (name == "Arc") {
-        forms_.push_back(new Arc(args["a"], args["b"], args["h_x"], args["h_y"], excluded));
+        forms_.push_back(new Arc(args["a"], args["b"], args["h_x"], args["h_y"], excluded, btype));
         Updsize();
         return true;
     }
@@ -105,6 +105,18 @@ std::vector<size_t> Object::Get_IDs() {
     return ids;
 }
 
+Form* Object::Who(double x, double y)
+{
+	for (auto form: forms_) 
+	{
+		if (form->Inhere(x, y)) 
+		{
+			return form;
+		}
+
+	}
+	return forms_.back();
+}
 Object::~Object() 
 {
 	for (auto form : forms_)

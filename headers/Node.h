@@ -9,13 +9,14 @@ class Node
 	double _x;
 	double _y;
 	double _t;
-	bool _flag;
+	int _btype;
+	
 	Node* _left;
 	Node* _right;
 	Node* _above;
 	Node* _below;
 public:
-	Node(double x = 0., double y = 0., bool f = 0., double t = 0.): _x(x), _y(y), _t(t), _left(nullptr), _right(nullptr), _above(nullptr), _below(nullptr), _flag(0) {}
+	Node(double x = 0., double y = 0., int type = 0., double t = 0.): _x(x), _y(y), _t(t), _left(nullptr), _right(nullptr), _above(nullptr), _below(nullptr), _btype(type) {}
 	double T() const;
 	double X() const;
 	double Y() const;
@@ -28,7 +29,7 @@ public:
 	Node*& d();
 	void SetT(double);
 	bool IsBound();
-	void SetB();
+	void SetB(int);
 	//friend Mesh;
 };
 

@@ -13,7 +13,7 @@ class System
 public:
 	
 System(Object& obj, double step = 10., double a1 = 1., double a2 = 1.): _obj(obj), _mesh(obj, step), _a1(a1), _a2(a2), _step(step) {}
-	void DefineBounds();
+	void DefineBounds(int, int, int, int);
 	std::vector<std::vector<Node*>>& Nodes();
 	std::vector<Node*>& LineX();
 	std::vector<Node*>& LineY();

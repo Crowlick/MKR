@@ -1,7 +1,8 @@
 #include "headers/Primitives.h"
 
-Rectangle::Rectangle(double a, double b, double h_x, double h_y, bool excluded) : a_(a), b_(b), h_x_(h_x), h_y_(h_y) {
+Rectangle::Rectangle(double a, double b, double h_x, double h_y, bool excluded, int btype) : a_(a), b_(b), h_x_(h_x), h_y_(h_y) {
     excluded_ = excluded;
+    _boundtype = btype;
 }
 
 std::pair<double, double> Rectangle::missX(double y)
@@ -33,8 +34,9 @@ bool Rectangle::Inhere(double x, double y) {
 
 
 
-Circle::Circle(double a, double b, double h_x, double h_y, bool excluded) : a_(a), b_(b), h_x_(h_x), h_y_(h_y) {
+Circle::Circle(double a, double b, double h_x, double h_y, bool excluded, int btype) : a_(a), b_(b), h_x_(h_x), h_y_(h_y) {
     excluded_ = excluded;
+    _boundtype = btype;
 }
 
 std::pair<double, double> Circle::missY(double x)
@@ -65,8 +67,9 @@ bool Circle::Inhere(double x, double y) {
 }
 
 
-Arc::Arc(double a, double b, double h_x, double h_y, bool excluded) : a_(a), b_(b), h_x_(h_x), h_y_(h_y) {
+Arc::Arc(double a, double b, double h_x, double h_y, bool excluded, int btype): a_(a), b_(b), h_x_(h_x), h_y_(h_y) {
     excluded_ = excluded;
+    _boundtype = btype;
 }
 
 std::pair<double, double> Arc::missY(double x)
