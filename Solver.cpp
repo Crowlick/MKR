@@ -2,9 +2,9 @@
 
 
 
-
 void Solver::SolveExplicit(System& sys, double tstop) const
 {
+	std::ofstream ExplicitOut(_name_1);
 	for (double t = 0.0; t < tstop; t += _dt)
 	{
 		for (int i = 1; i < sys.LineX().size() - 1; i++)
@@ -49,12 +49,19 @@ void Solver::SolveExplicit(System& sys, double tstop) const
 			}
 			SolveLine(sys, temperature);
 		}
+		for (auto line : sys.Nodes()) 
+		{
+			for (auto node : line)
+				ExplicitOut << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
+		}
+		ExplicitOut << "\n\n";
 	}
 }
 
 
 void Solver::SolveImplicit(System& sys, double tstop) const
 {
+	std::ofstream EmplicitOut(_name_2);
 	for (double t = 0.; t < tstop; t += _dt)
 	{
 		for (auto line : sys.Nodes())
@@ -68,6 +75,12 @@ void Solver::SolveImplicit(System& sys, double tstop) const
 					node->SetT(t);
 				}
 			}
+		for (auto line : sys.Nodes()) 
+		{
+			for (auto node : line)
+				EmplicitOut << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
+		}
+		EmplicitOut << "\n\n";
 	}
 }
 
@@ -78,7 +91,6 @@ void Solver::SolveLine(System& sys, std::vector<Node*>& n) const
 	double mu2 = n.back()->Dist(n[n.size() - 2]) / sys.step();
 	if (mu2 == 0.)
 		mu2 = .1;
-	//std::cout << mu1 << ' ' << mu2 << '\n';
 	double val2 = -(2 * sys.a1()) / (pow(sys.step(), 2)) - 1 / _dt;
 	double val1 = sys.a1() / (pow(sys.step(), 2));
 	std::vector<std::vector<double>> next(size);
@@ -100,19 +112,7 @@ void Solver::SolveLine(System& sys, std::vector<Node*>& n) const
 		right[i] = -n[i+1]->T() / _dt;
 	right.front() += -(2 * sys.a1() * n.front()->T()) / (mu1 * (mu1 + 1) * pow(sys.step(), 2));
 	right.back() += -(2 * sys.a1() * n.back()->T()) / (mu2 * (mu2 + 1) * pow(sys.step(), 2));
-	/*for (auto i : next)
-	{
-		for (auto k : i)
-			std::cout << k << ' ';
-		std::cout << '\n';
-	}
-	for (auto k : right)
-		std::cout << k << '\n';
-	std::cout << '\n';*/
 	std::vector<double> tmps = ThomasMethod(next, right);
-	/*for (auto k : tmps)
-		std::cout << k << '\n';
-	std::cout << '\n';*/
 	for (int i = 0; i < tmps.size(); i++)
 		n[i + 1]->SetT(tmps[i]);
 }

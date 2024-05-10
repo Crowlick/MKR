@@ -2,7 +2,14 @@
 #include <fstream>
 #include "headers/Solver.h"
 
-
+void visualize(std::ofstream &file, std::string filename) {
+	file << "set cbrange [" << 0 << ":" << 100 << "]" << std::endl;
+	file << "set size ratio " << float(400) / 500 << std::endl;            
+	file << "do for [i=0:" << 1000 << ":25]{" << std::endl;                 
+	file << "plot '" << filename << "' u 1:2:3 index i w points pt 5 palette" << std::endl;
+	file << "pause " << 0.0000001 << "}" << std::endl;
+	file << "pause -1";
+}
 
 int main()
 {
@@ -22,51 +29,23 @@ int main()
 	std::map<std::string, double> arc{{"a", w - R1}, {"b", h - R1}, {"h_x", 1 / R1}, {"h_y", 1 / R1}};
 	
 	Object obj;
-	obj.Add_Form("Rectangle", sqr, true, 2);
-	obj.Add_Form("Circle", circle, true, 2);
+	obj.Add_Form("Rectangle", sqr, true, 1);
+	obj.Add_Form("Circle", circle, true, 1);
 	obj.Add_Form("Arc", arc, true, 1);
 	obj.Add_Form("Rectangle", base, false, 1);
 	
 	double step = 5.;
 	std::ofstream file("data.dat");
-//	std::cout << obj.Inhere(0,0) << '\n';
+	std::ofstream script("script.plt");
+	
 	System sys(obj, step);
-	sys.DefineBounds(1, 2, 1, 2);
-	/*for (auto line : sys.Nodes())
-		for (auto node : line)
-			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
-	/*for (auto start : sys.lineY())
-	{
-		Node* cur = start;
-		while (cur)
-		{
-			file << cur->X() << ' ' << cur->Y() << ' ' << cur->T() << '\n';
-			cur = cur->u();
-		}
-	}*/
-//	file.close();
-//	system("python3 vis.py");*/
-	Solver s(1.);
-	s.SolveImplicit(sys, 10000.);
-	for (auto line : sys.Nodes())
-		for (auto node : line)
-			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';
-	/*Node* cur = sys.LineX().back();
-	while (cur)
-	{
-			file << cur->X() << ' ' << cur->Y() << ' ' << cur->T() << '\n';
-			cur = cur->r();
-	}*/
-	/*for (auto start : sys.LineX())
-	{
-		Node* cur = start;
-		while (cur)
-		{
-			file << cur->X() << ' ' << cur->Y() << ' ' << cur->T() << '\n';
-			cur = cur->r();
-		}
-	}*/
+	sys.DefineBounds(1, 1, 1, 1);
+	
+	Solver s("explicit.dat", "implicit.dat", 1.);
+	s.SolveImplicit(sys, 1000.);
+
 	file.close();
-	system("python3 vis.py");
+	visualize(script, "implicit.dat");
+	system("gnuplot script.plt");
 	return 0;
 }

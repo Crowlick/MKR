@@ -27,7 +27,6 @@ double Node::T() const
 	
 	if (_btype == 3)
 	{
-		//std::cout << _x << ' ' << _y << '\n';
 		if (!_left)
 			if (_right)
 				return _right->T() / (1 + Dist(_right));

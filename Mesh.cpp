@@ -59,10 +59,8 @@ void Mesh::Adapt()
 			if (!_obj.Inhere(_mesh[i][j]->X(), _mesh[i][j]->Y()))
 			{
 				Delnode(i, j);
-			//	std::pair<double, double> xs = _obj.Fillx(_mesh[i][j]->X(), _mesh[i][j]->Y());
-			//	if (_mesh[i][j]->X() != xs.first && _mesh[i][j]->X() != xs.second)
-					j--;
-					s--;
+				j--;
+				s--;
 			}
 		}
 	}
@@ -143,47 +141,13 @@ void Mesh::Delnode(int i, int j)
 				node->l() = left;
 				_mesh[i].push_back(left);
 			}
-			/*Node* bndNode = new Node(bndX2, node->Y());
-			bndNode->LinkX(node->l(), node->r());
-			node->l()->r() = bndNode;
-			node->l() = bndNode;
-			_mesh[i].push_back(bndNode);
-			
-			bndNode = new Node(bndX1, node->Y());
-			bndNode->LinkX(node->l(), node->r());
-			node->l()->r() = bndNode;
-			if (node->r())
-				node->r()->l() = bndNode;
-			_mesh[i].push_back(bndNode);*/
 		}
 		else
 			node->l()->r() = node->r();
 	}
 	if (node->r())
 	{
-		/*if (node->r()->X() != bndX1)
-		{
-			Node* bndNode = new Node(bndX1, node->Y());
-			bndNode->LinkX(node->r(), node->r()->r());
-			node->r()->l() = node->l();
-			node->r()->r() = bndNode;
-		//	node->r()->LinkX(node->l(), bndNode);
-			if (node->l())
-				node->l() = node->r();
-			_mesh[i].push_back(bndNode);
-		}
-		/*if (node->l()->X() != bndX2)
-		{
-			Node* bndNode = new Node(bndX2, node->Y());
-			bndNode->LinkX(node->l(), node->r());
-			node->r()->l() = bndNode;
-			if (node->l())
-				node->l()->r() = bndNode;
-			_mesh[i].push_back(bndNode);
-		}
-		else*/
-	//	else
-			node->r()->l() = node->l();
+		node->r()->l() = node->l();
 	}
 	if (node->d())
 	{
@@ -212,35 +176,13 @@ void Mesh::Delnode(int i, int j)
 				node->d() = down;
 				_mesh[i].push_back(down);
 			}
-			/*Node* bndNode = new Node(node->X(), bndY2);
-			bndNode->LinkY(node->d(), node->u());
-			node->d()->u() = bndNode;
-			node->d() = bndNode;
-			_mesh[i].push_back(bndNode);
-			
-			bndNode = new Node(node->X(), bndY1);
-			bndNode->LinkY(node->d(), node->u());
-			node->d()->u() = bndNode;
-			if (node->u())
-				node->u()->d() = bndNode;
-			_mesh[i].push_back(bndNode);*/
 		}
 		else
 			node->d()->u() = node->u();
 	}
 	if (node->u())
 	{
-		/*if (node->d()->Y() != bndY1)
-		{
-			Node* bndNode = new Node(node->X(), bndY2);
-			bndNode->LinkY(node->d(), node->u());
-			if (node->d())
-				node->d()->u() = bndNode;
-			node->u()->d() = bndNode;
-			_mesh[i].push_back(bndNode);
-		}
-		else*/
-			node->u()->d() = node->d();
+		node->u()->d() = node->d();
 	}
 	_mesh[i].erase(_mesh[i].begin() + j);
 	delete node;
