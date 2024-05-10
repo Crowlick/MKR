@@ -28,7 +28,7 @@ int main()
 	obj.Add_Form("Arc", arc, true);
 	obj.Add_Form("Rectangle", base, false);
 	
-	double step = 25.;
+	double step = 5.;
 	std::ofstream file("data.dat");
 	
 	System sys(obj, step);
@@ -48,7 +48,7 @@ int main()
 //	file.close();
 //	system("python3 vis.py");*/
 	Solver s(1.);
-	s.SolveExplicit(sys, 100.);
+	s.SolveExplicit(sys, 1000.);
 	for (auto line : sys.Nodes())
 		for (auto node : line)
 			file << node->X() << ' ' << node->Y() << ' ' <<  node->T() <<'\n';

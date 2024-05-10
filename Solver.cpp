@@ -1,6 +1,8 @@
 #include "headers/Solver.h"
 
 
+
+
 void Solver::SolveExplicit(System& sys, double tstop) const
 {
 	for (double t = 0.0; t < tstop; t += _dt)
@@ -26,7 +28,7 @@ void Solver::SolveExplicit(System& sys, double tstop) const
 			}
 			SolveLine(sys, temperature);
 		}
-		/*for (int i = 1; i < sys.LineY().size() - 1; i++)
+		for (int i = 1; i < sys.LineY().size() - 1; i++)
 		{
 			std::vector<Node*> temperature;
 			Node* cur = sys.LineY()[i];
@@ -46,7 +48,7 @@ void Solver::SolveExplicit(System& sys, double tstop) const
 				}
 			}
 			SolveLine(sys, temperature);
-		}*/
+		}
 	}
 }
 
@@ -62,7 +64,7 @@ void Solver::SolveLine(System& sys, std::vector<Node*>& n) const
 	double mu1 =  n.front()->Dist(n[1]) / sys.step();
 	double mu2 = n.back()->Dist(n[n.size() - 2]) / sys.step();
 	if (mu2 == 0.)
-		mu2 = .5;
+		mu2 = .1;
 	//std::cout << mu1 << ' ' << mu2 << '\n';
 	double val2 = -(2 * sys.a1()) / (pow(sys.step(), 2)) - 1 / _dt;
 	double val1 = sys.a1() / (pow(sys.step(), 2));
@@ -92,10 +94,12 @@ void Solver::SolveLine(System& sys, std::vector<Node*>& n) const
 		std::cout << '\n';
 	}
 	for (auto k : right)
-			std::cout << k << '\n';*/
+		std::cout << k << '\n';
+	std::cout << '\n';*/
 	std::vector<double> tmps = ThomasMethod(next, right);
 	/*for (auto k : tmps)
-			std::cout << k << '\n';*/
+		std::cout << k << '\n';
+	std::cout << '\n';*/
 	for (int i = 0; i < tmps.size(); i++)
 		n[i + 1]->SetT(tmps[i]);
 }
@@ -117,8 +121,10 @@ std::vector<double> Solver::ThomasMethod(std::vector<std::vector<double>>& A, st
 		alph[i] = -c / (a * alph[i - 1] + b1);
 		bet[i] = (b[i] - a * bet[i - 1]) / (a * alph[i - 1] + b1); 
 	}
-	x.back() = (b.back() - A.back()[1]*bet[-1]) / (A.back()[2] + A.back()[1]*alph.back());
+	x.back() = (b.back() - A.back()[1]*bet.back()) / (A.back()[2] + A.back()[1]*alph.back());
 	for (int i = row - 1; i > -1; i--)
 		x[i] = alph[i] * x[i+1] + bet[i];
 	return x;
 }
+
+
