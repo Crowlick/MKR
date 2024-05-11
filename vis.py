@@ -20,7 +20,7 @@ y = data[:, 1]
 t = data[:, 2]
 
 tmin = t.min()
-#t = t - tmin
+t = t - tmin
 tmax = t.max()
 if tmax == 0.0:
 	tmax = 1.0
@@ -28,7 +28,6 @@ if tmax == 0.0:
 t /= tmax
 
 colors = np.array([grad(i) for i in t])
-
 fig = plt.figure()
 
 fig.set_figheight(4)
@@ -47,8 +46,14 @@ axs0 = plt.subplot2grid(shape=(1, 4), loc=(0, 0), colspan=3)
 axs1 = plt.subplot2grid(shape=(1, 7), loc=(0, 6), colspan=3)
 axs1.get_xaxis ().set_visible ( False )
 axs0.scatter(x, y, color=colors)
-for dot in np.linspace(tmin, tmax, 200):
-	axs1.scatter(0, dot, color=grad(dot / tmax))
+#axs0.grid()
+dot = np.linspace(tmin, tmax, 200)
+x = np.zeros(dot.shape[0])
+clrs = np.array([np.abs(grad(i)) for i in dot / tmax])
+axs1.scatter(x, dot, color=clrs)
+axs1.set_ylabel("Temperature C$^0$")
+axs0.set_xlabel("$x,$ мм")
+axs0.set_ylabel("$y,$ мм")
 
 
 plt.show()
