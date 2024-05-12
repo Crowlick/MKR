@@ -6,6 +6,8 @@ double Node::Y() const {return _y;}
 
 double Node::T() const 
 {
+	if (!_btype)
+		return _t;
 	if (_btype == 1)
 		return 100.;
 		

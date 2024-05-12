@@ -29,4 +29,4 @@ main.o: main.cpp $(HEADERS)
 	g++ -c main.cpp
 
 clean:
-	rm *.o
+	rm *.o *.plt

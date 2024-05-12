@@ -27,17 +27,6 @@ void System::DefineBounds(int l, int t, int r, int b)
 		cur->SetB(r);
 		cur = cur->u();
 	}
-	/*for (auto line : _mesh.Nodes())
-	{
-		for (auto node : line)
-		{
-			if (!node->l() || !node->r() || !node->u() || !node->d())
-			{
-				//node->SetT(100);
-				node->SetB(1);
-			}
-		}
-	}*/
 }
 
 std::vector<std::vector<Node*>>& System::Nodes() {return _mesh.Nodes();}

@@ -4,10 +4,10 @@
 Mesh::Mesh(Object& obj, double step): _obj(obj), _step(step)
 {
 	
-	for (double y = 0.0; y <= _obj.Height(); y += _step)
+	for (double y = 0; y <= _obj.Height(); y += _step)
 	{
 		_mesh.push_back(std::vector<Node*>());
-		for (double x = 0.0; x <= _obj.Width(); x += _step)
+		for (double x = 0; x <= _obj.Width(); x += _step)
 		{
 			_mesh.back().push_back(new Node(x, y));
 		}
@@ -187,6 +187,7 @@ void Mesh::Delnode(int i, int j)
 	_mesh[i].erase(_mesh[i].begin() + j);
 	delete node;
 }
+
 
 std::vector<std::vector<Node*>>& Mesh::Nodes() {return _mesh;}
 

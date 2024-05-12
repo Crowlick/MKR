@@ -2,9 +2,9 @@
 
 
 
-void Solver::SolveExplicit(System& sys, double tstop) const
+void Solver::SolveImplicit(System& sys, double tstop) const
 {
-	std::ofstream ExplicitOut(_name_1);
+	std::ofstream ExplicitOut(_name_2);
 	for (double t = 0.0; t < tstop; t += _dt)
 	{
 		for (int i = 1; i < sys.LineX().size() - 1; i++)
@@ -59,9 +59,9 @@ void Solver::SolveExplicit(System& sys, double tstop) const
 }
 
 
-void Solver::SolveImplicit(System& sys, double tstop) const
+void Solver::SolveExplicit(System& sys, double tstop) const
 {
-	std::ofstream EmplicitOut(_name_2);
+	std::ofstream EmplicitOut(_name_1);
 	for (double t = 0.; t < tstop; t += _dt)
 	{
 		for (auto line : sys.Nodes())
@@ -69,9 +69,23 @@ void Solver::SolveImplicit(System& sys, double tstop) const
 			{
 				if (!node->IsBound())
 				{
-					double tx = (node->r()->T() - 2 * node->T() + node->l()->T()) / pow(sys.step(), 2);
-					double ty = (node->u()->T() - 2 * node->T() + node->d()->T()) / pow(sys.step(), 2);
-					double t = _dt * (tx + ty) + node->T();
+					double m1 = 1.;
+					double m2 = 1.;
+					/*if (node->r()->IsBound())
+						m1 = (node->r()->X() - node->X()) / sys.step();
+					if (node->l()->IsBound())
+						m1 = (node->X() - node->l()->X()) / sys.step();
+					if (node->u()->IsBound())
+						m2 = (node->u()->Y() - node->Y()) / sys.step();
+					if (node->d()->IsBound())
+						m2 = (node->X() - node->d()->Y()) / sys.step();
+					if (m1 <= 0.1)
+						m1 = 0.1;
+					if (m2 <= 0.1)
+						m2 = 0.1;*/
+					double tx = 2 * (m1 * node->r()->T() - (m1 + 1) * node->T() + node->l()->T()) / (m1 * (m1 + 1) * pow(sys.step(), 2));
+					double ty = 2 * (m2 * node->u()->T() - (m2 + 1) * node->T() + node->d()->T()) / (m2 * (m2 + 1) *pow(sys.step(), 2));
+					double t = _dt * sys.a1() * (tx + ty) + node->T();
 					node->SetT(t);
 				}
 			}
@@ -89,8 +103,10 @@ void Solver::SolveLine(System& sys, std::vector<Node*>& n) const
 	int size = n.size() - 2;
 	double mu1 =  n.front()->Dist(n[1]) / sys.step();
 	double mu2 = n.back()->Dist(n[n.size() - 2]) / sys.step();
-	if (mu2 == 0.)
-		mu2 = .1;
+	//mu1 = 1.;
+	//mu2 = 1.;
+	//if (mu2 <= 0.05)
+	//	mu2 = .1;
 	double val2 = -(2 * sys.a1()) / (pow(sys.step(), 2)) - 1 / _dt;
 	double val1 = sys.a1() / (pow(sys.step(), 2));
 	std::vector<std::vector<double>> next(size);
